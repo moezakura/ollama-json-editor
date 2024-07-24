@@ -1,0 +1,42 @@
+# Node.js関連
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Next.js関連
+.next
+out
+
+# キャッシュファイル
+.cache
+
+# ビルドファイル
+build
+dist
+
+# 開発用ファイル
+*.log
+*.md
+.git
+.gitignore
+
+# 環境変数ファイル（必要に応じてコメントアウト）
+.env*.local
+
+# エディタ関連
+.vscode
+.idea
+
+# テスト関連
+__tests__
+*.test.js
+*.spec.js
+
+# その他
+.DS_Store
+Thumbs.db
+
+# Docker関連（これらは既にコンテキスト外にあるため、通常は不要ですが、念のため）
+Dockerfile
+.dockerignore
