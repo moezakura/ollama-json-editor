@@ -67,3 +67,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes rainbow-flow {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.animate-rainbow-flow {
+  animation: rainbow-flow 2s linear infinite;
+}

@@ -17,7 +17,7 @@ interface Prompt {
   content: string;
 }
 
-export const PromptEditor = ({ onSubmit }: { onSubmit: (prompts: Prompt[]) => void }) => {
+export const PromptEditor = ({ onSubmit,isLoading }: { onSubmit: (prompts: Prompt[]) => void , isLoading: boolean}) => {
   const [prompts, setPrompts] = useState<Prompt[]>([
     { role: 'System', content: '' },
     { role: 'User', content: '' }
@@ -72,7 +72,7 @@ export const PromptEditor = ({ onSubmit }: { onSubmit: (prompts: Prompt[]) => vo
         </div>
       ))}
       <Button onClick={addPrompt} className="mb-4 mr-2">Add Prompt</Button>
-      <Button onClick={handleSubmit}>Generate</Button>
+      <Button onClick={handleSubmit} disabled={isLoading}>Generate</Button>
     </ScrollArea>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
@@ -23,6 +23,32 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ parameters, setParameters, models  }) => {
+    const [inputValue, setInputValue] = useState(parameters.maxTokens.toString());
+    const handleSliderChange = (value) => {
+        setParameters({ ...parameters, maxTokens: value[0] });
+        setInputValue(value[0].toString());
+      };
+    
+      const handleInputChange = (event) => {
+        const value = event.target.value;
+        setInputValue(value);
+        
+        const parsedValue = parseInt(value, 10);
+        if (!isNaN(parsedValue) && parsedValue >= 1 && parsedValue <= 100000) {
+          setParameters({ ...parameters, maxTokens: parsedValue });
+        }
+      };
+    
+      const handleInputBlur = () => {
+        const parsedValue = parseInt(inputValue, 10);
+        if (isNaN(parsedValue) || parsedValue < 1) {
+          setInputValue('1');
+          setParameters({ ...parameters, maxTokens: 1 });
+        } else if (parsedValue > 100000) {
+          setInputValue('100000');
+          setParameters({ ...parameters, maxTokens: 100000 });
+        }
+      };
   return (
     <div className="w-64 bg-gray-100 p-4">
       <h2 className="text-lg font-bold mb-4">Parameters</h2>
@@ -83,12 +109,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ parameters, setParameters, mod
           <Slider
             id="maxTokens"
             min={1}
-            max={4096}
+            max={100000}
             step={1}
             value={[parameters.maxTokens]}
-            onValueChange={(value) => setParameters({ ...parameters, maxTokens: value[0] })}
-          />
+            onValueChange={handleSliderChange}          />
         </div>
+        <div className="flex items-center space-x-4">
+        <Label htmlFor="maxTokensInput" className="w-24">Enter value:</Label>
+        <Input
+          id="maxTokensInput"
+          type="number"
+          min={1}
+          max={100000}
+          value={inputValue}
+          onChange={handleInputChange}
+          onBlur={handleInputBlur}
+          className="w-24"
+        />
+      </div>
       </div>
     </div>
   );

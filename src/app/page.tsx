@@ -5,6 +5,7 @@ import { Sidebar } from '@/components/Sidebar';
 import { PromptEditor } from '@/components/PromptEditor';
 import { JsonViewer } from '@/components/JsonViewer';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable"
+import RainbowLoadingBar from '@/components/LoadingBar';
 
 interface Prompt {
   role: string;
@@ -39,6 +40,7 @@ export default function Home() {
     topK: 40,
     maxTokens: 2048,
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   
   useEffect(() => {
     fetchModels();
@@ -57,6 +59,7 @@ export default function Home() {
 
   const handleSubmit = async (submittedPrompts: Prompt[]) => {
     try {
+      setIsLoading(true);
       const response = await fetch('/api/generate', {
         method: 'POST',
         headers: {
@@ -90,11 +93,19 @@ export default function Home() {
     } catch (error) {
       console.error('Error:', error);
       setResult({ error: 'Error occurred while generating response' });
+    }finally{
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="flex h-screen">
+      {
+        isLoading ? (
+          <RainbowLoadingBar />
+        ) : null
+      }
+
       <Sidebar
         parameters={parameters}
         setParameters={setParameters}
@@ -104,6 +115,7 @@ export default function Home() {
         <ResizablePanel defaultSize={50}>
           <PromptEditor 
             onSubmit={(prompts) => handleSubmit(prompts)} 
+            isLoading={isLoading}
           />
         </ResizablePanel>
         <ResizableHandle />
