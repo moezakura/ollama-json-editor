@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
@@ -24,12 +24,12 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ parameters, setParameters, models  }) => {
     const [inputValue, setInputValue] = useState(parameters.maxTokens.toString());
-    const handleSliderChange = (value) => {
+    const handleSliderChange = (value:number[]) => {
         setParameters({ ...parameters, maxTokens: value[0] });
         setInputValue(value[0].toString());
       };
     
-      const handleInputChange = (event) => {
+      const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setInputValue(value);
         
@@ -57,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ parameters, setParameters, mod
           <Label htmlFor="model">Model</Label>
           <Select
             value={parameters.model}
-            onValueChange={(value) => setParameters({ ...parameters, model: value })}
+            onValueChange={(value: string) => setParameters({ ...parameters, model: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Select a model" />
@@ -79,7 +79,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ parameters, setParameters, mod
             max={1}
             step={0.1}
             value={[parameters.temperature]}
-            onValueChange={(value) => setParameters({ ...parameters, temperature: value[0] })}
+            onValueChange={(value:number[]) => setParameters({ ...parameters, temperature: value[0] })}
           />
         </div>
         <div>
@@ -90,7 +90,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ parameters, setParameters, mod
             max={1}
             step={0.1}
             value={[parameters.topP]}
-            onValueChange={(value) => setParameters({ ...parameters, topP: value[0] })}
+            onValueChange={(value:number[]) => setParameters({ ...parameters, topP: value[0] })}
           />
         </div>
         <div>
@@ -101,7 +101,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ parameters, setParameters, mod
             max={100}
             step={1}
             value={[parameters.topK]}
-            onValueChange={(value) => setParameters({ ...parameters, topK: value[0] })}
+            onValueChange={(value:number[]) => setParameters({ ...parameters, topK: value[0] })}
           />
         </div>
         <div>

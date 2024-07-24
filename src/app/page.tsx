@@ -34,7 +34,7 @@ export default function Home() {
   const [result, setResult] = useState<any>({});
   const [models, setModels] = useState<string[]>([]);
   const [parameters, setParameters] = useState({
-    model: 'llama3',
+    model: '',
     temperature: 0.7,
     topP: 0.9,
     topK: 40,

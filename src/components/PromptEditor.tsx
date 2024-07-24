@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Button } from "@/components/ui/button"
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -48,11 +48,13 @@ export const PromptEditor = ({ onSubmit,isLoading }: { onSubmit: (prompts: Promp
         <div key={index} className="mb-6 mx-2">
           <Select
             value={prompt.role}
-            onChange={(e) => {
-              const newPrompts = [...prompts];
-              newPrompts[index].role = e.target.value;
-              setPrompts(newPrompts);
-            }}
+            onValueChange={
+                (e: string) => {
+                    const newPrompts = [...prompts];
+                    newPrompts[index].role = e;
+                    setPrompts(newPrompts);
+                }      
+            }
           >
             <SelectTrigger className="w-[280px]">
                 <SelectValue placeholder="Select a timezone" />
@@ -66,7 +68,7 @@ export const PromptEditor = ({ onSubmit,isLoading }: { onSubmit: (prompts: Promp
           <Textarea
             className="mt-2"
             value={prompt.content}
-            onChange={(value) => handleEditorChange(value, index)}
+            onChange={(e: ChangeEvent<HTMLTextAreaElement>) => handleEditorChange(e.target.value, index)}
           />
           <Button onClick={() => removePrompt(index)} className="mt-2">Remove</Button>
         </div>
